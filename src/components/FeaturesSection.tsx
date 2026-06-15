@@ -24,13 +24,15 @@ export default function FeaturesSection() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-12">
           <div>
-            <span className="kicker">// capabilities</span>
+            <span className="kicker"><span className="dev-only">// capabilities</span><span className="simple-only">Capabilities</span></span>
             <h2 className="display text-[clamp(2.2rem,6vw,4.5rem)] mt-3">
-              what ships<br />in the <span className="flame-text">box</span>.
+              <span className="dev-only">what ships<br />in the <span className="flame-text">box</span>.</span>
+              <span className="simple-only">Everything you<br />need, <span className="flame-text">built in</span>.</span>
             </h2>
           </div>
-          <p className="font-mono text-[13px] text-[var(--fg-dim)] max-w-xs">
-            Every feature is a default, not an upsell. Read it like a man page.
+          <p className="font-mono simple:font-sans text-[13px] simple:text-sm text-[var(--fg-dim)] max-w-xs">
+            <span className="dev-only">Every feature is a default, not an upsell. Read it like a man page.</span>
+            <span className="simple-only">Every feature is on by default — no add-ons, no upsells, no setup.</span>
           </p>
         </div>
 
@@ -45,15 +47,15 @@ export default function FeaturesSection() {
               className="group grid grid-cols-[auto_1fr] md:grid-cols-[3rem_minmax(0,14rem)_1fr_auto] items-baseline gap-x-5 gap-y-1 py-5 border-b border-line hover:bg-flame/[0.04] transition-colors"
             >
               <span className="font-mono text-[12px] text-flame">{r.id}</span>
-              <h3 className="font-display font-semibold text-lg group-hover:translate-x-1 transition-transform">
+              <h3 className="font-display simple:font-sans font-semibold text-lg group-hover:translate-x-1 transition-transform">
                 {r.name}
               </h3>
-              <p className="font-mono text-[13px] text-[var(--fg-dim)] leading-relaxed col-span-2 md:col-span-1">
+              <p className="font-mono simple:font-sans text-[13px] simple:text-sm text-[var(--fg-dim)] leading-relaxed col-span-2 md:col-span-1">
                 {r.desc}
               </p>
               <div className="flex items-center gap-3 col-start-2 md:col-start-auto">
-                <code className="font-mono text-[11px] text-flame border border-line px-2 py-0.5">{r.flag}</code>
-                <span className="kicker text-[9px]">{r.tag}</span>
+                <code className="dev-only font-mono text-[11px] text-flame border border-line px-2 py-0.5">{r.flag}</code>
+                <span className="kicker text-[9px] simple:text-[11px] simple:px-2 simple:py-0.5 simple:border simple:border-line simple:rounded-full">{r.tag}</span>
               </div>
             </motion.div>
           ))}

@@ -9,7 +9,7 @@ export default function AccessibilitySection() {
   return (
     <section id="accessibility" className="px-5 py-24">
       <div className="max-w-4xl mx-auto border border-line p-8 md:p-12">
-        <span className="kicker">// compliance</span>
+        <span className="kicker"><span className="dev-only">// compliance</span><span className="simple-only">Compliance</span></span>
         <h2 className="display text-[clamp(1.8rem,5vw,3.5rem)] mt-3 mb-6">access is the <span className="flame-text">default</span>.</h2>
         <p className="font-mono text-[13px] text-[var(--fg-dim)] mb-6 max-w-xl">
           PyKey is designed to work alongside screen readers and assistive software. It supports:

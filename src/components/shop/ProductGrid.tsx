@@ -11,10 +11,10 @@ export default function ProductGrid() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-12">
           <div>
-            <span className="kicker">// models &amp; kits</span>
+            <span className="kicker"><span className="dev-only">// models &amp; kits</span><span className="simple-only">Models &amp; Kits</span></span>
             <h2 className="display text-[clamp(2.2rem,6vw,4.5rem)] mt-3">pick your <span className="flame-text">unit</span>.</h2>
           </div>
-          <p className="font-mono text-[13px] text-[var(--fg-dim)] max-w-xs">All prices reflect the 25% launch discount.</p>
+          <p className="font-mono simple:font-sans text-[13px] simple:text-sm text-[var(--fg-dim)] max-w-xs">All prices reflect the 25% launch discount.</p>
         </div>
 
         <div className="grid md:grid-cols-3 border border-line">
@@ -39,7 +39,7 @@ export default function ProductGrid() {
 
               <div className="p-5 flex flex-col gap-3 flex-1">
                 <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="font-display font-bold text-xl">{p.name}</h3>
+                  <h3 className="font-display simple:font-sans font-bold text-xl">{p.name}</h3>
                   {p.rating && <span className="font-mono text-[11px] text-flame">{'★'.repeat(p.rating)}</span>}
                 </div>
                 <p className="font-mono text-[12px] text-[var(--fg-dim)] leading-relaxed flex-1">{p.description}</p>
@@ -53,15 +53,15 @@ export default function ProductGrid() {
                     {p.discount && <span className="text-[11px] text-flame ml-2">{p.discount}</span>}
                   </div>
                   {p.comingSoon ? (
-                    <button disabled className="inline-flex items-center gap-1.5 h-9 px-3 border border-line text-[12px] text-[var(--fg-dim)] cursor-not-allowed">
+                    <button disabled className="inline-flex items-center gap-1.5 h-9 px-3 border border-line text-[12px] text-[var(--fg-dim)] cursor-not-allowed simple:rounded-full simple:font-sans">
                       <Bell size={13} /> notify
                     </button>
                   ) : (
                     <button
                       onClick={() => addItem({ id: p.id, name: p.name, price: p.price, image: p.image })}
-                      className="inline-flex items-center gap-1.5 h-9 px-4 bg-flame text-black font-bold text-[12px] hover:bg-ember transition-colors"
+                      className="inline-flex items-center gap-1.5 h-9 px-4 bg-flame text-black font-bold text-[12px] hover:bg-ember transition-colors simple:rounded-full simple:font-sans"
                     >
-                      <Plus size={14} /> add
+                      <Plus size={14} /> <span className="dev-only">add</span><span className="simple-only">Add to cart</span>
                     </button>
                   )}
                 </div>

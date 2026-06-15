@@ -29,7 +29,7 @@ export default function GallerySection() {
     <section id="gallery" className="px-5 py-24 border-t border-line">
       <div className="max-w-7xl mx-auto">
         <div className="mb-10">
-          <span className="kicker">// gallery</span>
+          <span className="kicker"><span className="dev-only">// gallery</span><span className="simple-only">Gallery</span></span>
           <h2 className="display text-[clamp(2rem,5.5vw,4rem)] mt-3">see it <span className="flame-text">close</span>.</h2>
         </div>
         <div className="grid sm:grid-cols-3 border border-line">

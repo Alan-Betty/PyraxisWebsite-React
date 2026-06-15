@@ -17,10 +17,10 @@ export interface Release {
   builds: Build[]
 }
 
-export const OS_META: Record<OS, { label: string; icon: string; cmd: string }> = {
+export const OS_META: Record<OS, { label: string; icon: string; cmd: string; comingSoon?: boolean }> = {
   macos: { label: 'macOS', icon: '', cmd: 'brew install --cask pyraxis' },
   windows: { label: 'Windows', icon: '⊞', cmd: 'winget install Pyraxis.Browser' },
-  linux: { label: 'Linux', icon: '🐧', cmd: 'curl -fsSL https://pyraxis.sh | sh' },
+  linux: { label: 'Linux', icon: '🐧', cmd: 'coming soon', comingSoon: true },
   mobile: { label: 'Mobile', icon: '▢', cmd: 'scan QR · or visit pyraxis.app' },
 }
 
@@ -53,18 +53,6 @@ export const RELEASES: Release[] = [
       { os: 'windows', url: `${BASE}/Pyraxis.exe?download=true`, ext: '.exe', size: '88.1 MB', arch: 'x64' },
       { os: 'linux', url: `${BASE}/Pyraxis.AppImage?download=true`, ext: '.AppImage', size: '100 MB', arch: 'x86_64' },
       { os: 'mobile', url: `${BASE.replace('media.', 'raw.')}/pyraxis.apk`, ext: '.apk', size: '41.7 MB', arch: 'arm64' },
-    ],
-  },
-  {
-    version: '0.9.3',
-    channel: 'nightly',
-    date: '2026-06-12',
-    notes: ['Experimental GPU compositor', 'New per-site shield panel', 'May break. You were warned.'],
-    builds: [
-      { os: 'macos', url: `${BASE}/Pyraxis.dmg?download=true`, ext: '.dmg', size: '96.0 MB', arch: 'universal' },
-      { os: 'windows', url: `${BASE}/Pyraxis.exe?download=true`, ext: '.exe', size: '90.2 MB', arch: 'x64' },
-      { os: 'linux', url: `${BASE}/Pyraxis.AppImage?download=true`, ext: '.AppImage', size: '103 MB', arch: 'x86_64' },
-      { os: 'mobile', url: `${BASE.replace('media.', 'raw.')}/pyraxis.apk`, ext: '.apk', size: '43.0 MB', arch: 'arm64' },
     ],
   },
   {

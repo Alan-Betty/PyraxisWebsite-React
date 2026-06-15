@@ -11,7 +11,7 @@ export default function ShopFeatures() {
     <section id="features" className="px-5 py-24 border-t border-line">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12">
-          <span className="kicker">// assistive features</span>
+          <span className="kicker"><span className="dev-only">// assistive features</span><span className="simple-only">Assistive Features</span></span>
           <h2 className="display text-[clamp(2rem,5.5vw,4rem)] mt-3">built for <span className="flame-text">touch</span>.</h2>
         </div>
         <div className="grid md:grid-cols-3 border border-line">
@@ -25,8 +25,8 @@ export default function ShopFeatures() {
               className="p-7 border-line border-r last:border-r-0 border-b md:border-b-0 hover:bg-flame/[0.04] transition-colors"
             >
               <span className="font-mono text-[12px] text-flame">{f.id}</span>
-              <h3 className="font-display font-semibold text-lg mt-3 mb-2">{f.title}</h3>
-              <p className="font-mono text-[12px] text-[var(--fg-dim)] leading-relaxed">{f.desc}</p>
+              <h3 className="font-display simple:font-sans font-semibold text-lg mt-3 mb-2">{f.title}</h3>
+              <p className="font-mono simple:font-sans text-[12px] simple:text-sm text-[var(--fg-dim)] leading-relaxed">{f.desc}</p>
             </motion.article>
           ))}
         </div>

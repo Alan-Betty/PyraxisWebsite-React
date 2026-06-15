@@ -35,8 +35,10 @@ export default function CartDrawer() {
             className="fixed top-0 right-0 z-[111] h-full w-full sm:w-[420px] bg-ink light:bg-bg-2 border-l border-line flex flex-col"
           >
             <header className="flex items-center justify-between px-5 h-12 border-b border-line bg-ink-2 light:bg-bone/40">
-              <span className="font-mono text-[13px]">
-                <span className="text-flame">~/cart</span> <span className="text-[var(--fg-dim)]">[{count}]</span>
+              <span className="font-mono simple:font-sans text-[13px] simple:text-sm">
+                <span className="text-flame dev-only">~/cart</span>
+                <span className="text-flame simple-only font-semibold">Your cart</span>{' '}
+                <span className="text-[var(--fg-dim)]"><span className="dev-only">[{count}]</span><span className="simple-only">({count})</span></span>
               </span>
               <button onClick={closeCart} aria-label="Close cart" className="text-[var(--fg-dim)] hover:text-flame"><X size={18} /></button>
             </header>
@@ -82,12 +84,12 @@ export default function CartDrawer() {
                 <div className="flex justify-between text-[var(--fg-dim)]"><span>subtotal</span><span>${subtotal.toFixed(2)}</span></div>
                 <div className="flex justify-between text-[var(--fg-dim)]"><span>shipping</span><span className="text-flame">free</span></div>
                 <div className="flex justify-between font-bold pt-2 border-t border-line"><span>total</span><span>${subtotal.toFixed(2)}</span></div>
-                <button onClick={checkout} className="h-11 bg-flame text-black font-bold hover:bg-ember transition-colors mt-1">
-                  {done ? '✓ order placed' : './checkout'}
+                <button onClick={checkout} className="h-11 bg-flame text-black font-bold hover:bg-ember transition-colors mt-1 simple:rounded-full simple:font-sans">
+                  {done ? '✓ order placed' : <><span className="dev-only">./checkout</span><span className="simple-only">Checkout</span></>}
                 </button>
                 <div className="flex gap-2">
-                  <button onClick={closeCart} className="flex-1 h-10 border border-line text-[12px] hover:border-flame transition-colors">continue</button>
-                  <button onClick={clearCart} className="flex-1 h-10 border border-line text-[12px] text-flame hover:bg-flame/10 transition-colors">clear</button>
+                  <button onClick={closeCart} className="flex-1 h-10 border border-line text-[12px] hover:border-flame transition-colors simple:rounded-full simple:font-sans"><span className="dev-only">continue</span><span className="simple-only">Keep shopping</span></button>
+                  <button onClick={clearCart} className="flex-1 h-10 border border-line text-[12px] text-flame hover:bg-flame/10 transition-colors simple:rounded-full simple:font-sans"><span className="dev-only">clear</span><span className="simple-only">Clear</span></button>
                 </div>
               </div>
             )}

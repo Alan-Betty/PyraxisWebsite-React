@@ -12,7 +12,7 @@ export default function DownloadsSection() {
     <section id="downloads" className="px-5 py-24 border-t border-line">
       <div className="max-w-4xl mx-auto">
         <div className="mb-10">
-          <span className="kicker">// software &amp; downloads</span>
+          <span className="kicker"><span className="dev-only">// software &amp; downloads</span><span className="simple-only">Software &amp; Downloads</span></span>
           <h2 className="display text-[clamp(2rem,5.5vw,4rem)] mt-3">flash it. <span className="flame-text">tune it</span>.</h2>
         </div>
         <div className="border border-line">
