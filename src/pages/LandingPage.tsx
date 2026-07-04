@@ -7,6 +7,7 @@ import PreviewSection from '../components/PreviewSection'
 import FeaturesSection from '../components/FeaturesSection'
 import DownloadHub from '../components/DownloadHub'
 import ShopTeaser from '../components/ShopTeaser'
+import PrintingSection from '../components/PrintingSection'
 
 export default function LandingPage() {
   return (
@@ -21,6 +22,7 @@ export default function LandingPage() {
         <DownloadHub />
         <Ticker reverse />
         <ShopTeaser />
+        <PrintingSection />
       </main>
       <Footer />
     </div>

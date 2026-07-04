@@ -9,6 +9,7 @@ const LANDING_NAV = [
   { dev: '~/features', simple: 'Features', hash: '#features' },
   { dev: '~/download', simple: 'Download', hash: '#download' },
   { dev: '~/preview', simple: 'Preview', hash: '#preview' },
+  { dev: '~/printing', simple: '3D Printing', hash: '#printing' },
 ]
 
 const SHOP_NAV = [

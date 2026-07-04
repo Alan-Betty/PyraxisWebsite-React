@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Check, Copy, Download } from 'lucide-react'
+import { Download } from 'lucide-react'
 import { RELEASES, OS_META, detectOS, type OS, type Channel } from '../data/releases'
 import { useMode } from '../context/ModeContext'
 
@@ -15,8 +15,7 @@ const OS_ORDER: OS[] = ['macos', 'windows', 'linux', 'mobile']
 export default function DownloadHub() {
   const { isDev } = useMode()
   const [os, setOs] = useState<OS>(() => detectOS())
-  const [channel, setChannel] = useState<Channel>('beta')
-  const [copied, setCopied] = useState(false)
+  const [channel, setChannel] = useState<Channel>('stable')
   const comingSoon = OS_META[os].comingSoon
 
   // newest release matching channel
@@ -27,13 +26,6 @@ export default function DownloadHub() {
   }, [channel])
 
   const build = release.builds.find((b) => b.os === os) ?? release.builds[0]
-  const cmd = OS_META[os].cmd
-
-  function copyCmd() {
-    navigator.clipboard?.writeText(cmd)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
-  }
 
   return (
     <section id="download" className="px-5 py-24 border-t border-line">
@@ -112,7 +104,7 @@ export default function DownloadHub() {
           >
             <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-6">
               <span className="font-display simple:font-sans font-bold text-3xl">
-                v{release.version}
+                v{build.version ?? release.version}
                 <span className="text-flame text-base ml-2">/{release.channel}</span>
               </span>
               <span className="kicker"><span className="dev-only">released </span>{release.date}</span>
@@ -158,15 +150,6 @@ export default function DownloadHub() {
                     <span className="dev-only">download {OS_META[os].label} · {build.size}</span>
                     <span className="simple-only">Download for {OS_META[os].label} ({build.size})</span>
                   </a>
-
-                  <button
-                    onClick={copyCmd}
-                    className="dev-only inline-flex items-center gap-3 h-[52px] px-5 py-4 border border-line hover:border-flame transition-colors font-mono text-[13px] text-[var(--fg-dim)] hover:text-[var(--fg)]"
-                  >
-                    <span className="text-flame">$</span>
-                    <span className="truncate max-w-[220px]">{cmd}</span>
-                    {copied ? <Check size={15} className="text-flame" /> : <Copy size={15} />}
-                  </button>
                 </div>
                 <p className="kicker text-[9px] mt-4 dev-only">
                   sha256 verified · signed build · {build.url.includes('apk') ? 'sideload enabled' : 'notarized'}
@@ -196,7 +179,7 @@ export default function DownloadHub() {
                   const b = r.builds.find((x) => x.os === os) ?? r.builds[0]
                   return (
                     <tr key={r.version + r.channel} className="border-b border-line last:border-b-0 hover:bg-flame/[0.04] transition-colors">
-                      <td className="px-4 py-3 font-semibold">v{r.version}</td>
+                      <td className="px-4 py-3 font-semibold">v{b.version ?? r.version}</td>
                       <td className="px-4 py-3">
                         <span className="text-flame">/{r.channel}</span>
                       </td>

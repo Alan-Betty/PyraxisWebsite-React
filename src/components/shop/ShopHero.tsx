@@ -51,7 +51,7 @@ export default function ShopHero() {
               onClick={(e) => { e.preventDefault(); document.querySelector('#specs')?.scrollIntoView({ behavior: 'smooth' }) }}
               className="inline-flex items-center gap-2 h-12 px-6 border border-line hover:border-flame transition-colors text-[var(--fg-dim)] hover:text-[var(--fg)] simple:rounded-full simple:font-sans"
             >
-              <span className="dev-only">man pykey</span><span className="simple-only">See specs</span>
+              <span className="dev-only">See specs</span><span className="simple-only">See specs</span>
             </a>
           </div>
         </div>

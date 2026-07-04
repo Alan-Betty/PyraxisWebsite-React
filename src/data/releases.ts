@@ -7,6 +7,7 @@ export interface Build {
   ext: string
   size: string
   arch: string
+  version?: string // overrides release.version for this OS (e.g. mobile track)
 }
 
 export interface Release {
@@ -26,9 +27,11 @@ export const OS_META: Record<OS, { label: string; icon: string; cmd: string; com
 
 const BASE = 'https://media.githubusercontent.com/media/PyraxisBrowser/installers/refs/heads/main'
 
+const MOBILE_VERSION = '5.0.0'
+
 export const RELEASES: Release[] = [
   {
-    version: '0.9.2',
+    version: '10.0.1',
     channel: 'beta',
     date: '2026-06-02',
     notes: [
@@ -40,11 +43,11 @@ export const RELEASES: Release[] = [
       { os: 'macos', url: `${BASE}/Pyraxis.dmg?download=true`, ext: '.dmg', size: '94.2 MB', arch: 'universal' },
       { os: 'windows', url: `${BASE}/Pyraxis.exe?download=true`, ext: '.exe', size: '88.7 MB', arch: 'x64' },
       { os: 'linux', url: `${BASE}/Pyraxis.AppImage?download=true`, ext: '.AppImage', size: '101 MB', arch: 'x86_64' },
-      { os: 'mobile', url: `${BASE.replace('media.', 'raw.')}/pyraxis.apk`, ext: '.apk', size: '42.1 MB', arch: 'arm64' },
+      { os: 'mobile', url: `${BASE.replace('media.', 'raw.')}/pyraxis.apk`, ext: '.apk', size: '42.1 MB', arch: 'arm64', version: MOBILE_VERSION },
     ],
   },
   {
-    version: '0.9.1',
+    version: '10.0.0',
     channel: 'stable',
     date: '2026-05-14',
     notes: ['Hardened signed-update chain', 'Reader mode typography pass', 'Quick search switch hotkeys'],
@@ -52,19 +55,7 @@ export const RELEASES: Release[] = [
       { os: 'macos', url: `${BASE}/Pyraxis.dmg?download=true`, ext: '.dmg', size: '93.8 MB', arch: 'universal' },
       { os: 'windows', url: `${BASE}/Pyraxis.exe?download=true`, ext: '.exe', size: '88.1 MB', arch: 'x64' },
       { os: 'linux', url: `${BASE}/Pyraxis.AppImage?download=true`, ext: '.AppImage', size: '100 MB', arch: 'x86_64' },
-      { os: 'mobile', url: `${BASE.replace('media.', 'raw.')}/pyraxis.apk`, ext: '.apk', size: '41.7 MB', arch: 'arm64' },
-    ],
-  },
-  {
-    version: '0.9.0',
-    channel: 'stable',
-    date: '2026-04-28',
-    notes: ['First public beta', 'Privacy engine v1', 'Accessibility suite launch'],
-    builds: [
-      { os: 'macos', url: `${BASE}/Pyraxis.dmg?download=true`, ext: '.dmg', size: '92.5 MB', arch: 'universal' },
-      { os: 'windows', url: `${BASE}/Pyraxis.exe?download=true`, ext: '.exe', size: '87.0 MB', arch: 'x64' },
-      { os: 'linux', url: `${BASE}/Pyraxis.AppImage?download=true`, ext: '.AppImage', size: '99 MB', arch: 'x86_64' },
-      { os: 'mobile', url: `${BASE.replace('media.', 'raw.')}/pyraxis.apk`, ext: '.apk', size: '40.9 MB', arch: 'arm64' },
+      { os: 'mobile', url: `${BASE.replace('media.', 'raw.')}/pyraxis.apk`, ext: '.apk', size: '41.7 MB', arch: 'arm64', version: MOBILE_VERSION },
     ],
   },
 ]
