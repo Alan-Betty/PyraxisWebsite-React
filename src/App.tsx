@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import { ThemeProvider } from './context/ThemeContext'
 import { ModeProvider } from './context/ModeContext'
 import { CartProvider } from './context/CartContext'
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/shop" element={<ShopPage />} />
         </Routes>
+        <Analytics />
       </CartProvider>
       </ModeProvider>
     </ThemeProvider>
