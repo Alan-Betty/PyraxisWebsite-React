@@ -92,7 +92,11 @@ body {
   font-size: 11px;
   letter-spacing: .22em;
   text-transform: uppercase;
-  color: var(--fg-dim);
+}
+/* colour is layered so text-* utilities (text-flame, text-black/60) can override it */
+@layer components {
+  .kicker { color: var(--fg-dim); }
+  html.simple .kicker { color: var(--color-flame); }
 }
 
 .display {
@@ -152,7 +156,6 @@ html.simple .kicker {
   font-weight: 600;
   letter-spacing: 0.01em;
   text-transform: none;
-  color: var(--color-flame);
 }
 
 /* round + lift cards, hairlines softer, drop the hard offset shadows */

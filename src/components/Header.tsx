@@ -1,15 +1,23 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Sun, Moon, Terminal, Menu, X, Code2, Sparkles } from 'lucide-react'
+import { Sun, Moon, Terminal, Menu, X, Code2, Sparkles, UserRound } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTheme } from '../context/ThemeContext'
 import { useMode } from '../context/ModeContext'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../auth/auth-context'
+import { homeFor } from '../api/permissions'
 
 const LANDING_NAV = [
+  { dev: '~/printing', simple: '3D Printing', hash: '#printing' },
   { dev: '~/features', simple: 'Features', hash: '#features' },
   { dev: '~/download', simple: 'Download', hash: '#download' },
   { dev: '~/preview', simple: 'Preview', hash: '#preview' },
-  { dev: '~/printing', simple: '3D Printing', hash: '#printing' },
+]
+
+const PRINT_NAV = [
+  { dev: '~/materials', simple: 'Materials', hash: '#materials' },
+  { dev: '~/solutions', simple: 'Solutions', hash: '#solutions' },
+  { dev: '~/quote', simple: 'Quote', hash: '#quote' },
 ]
 
 const SHOP_NAV = [
@@ -22,10 +30,13 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme()
   const { isDev, toggleMode } = useMode()
   const { itemCount, openCart } = useCart()
+  const { user } = useAuth()
   const location = useLocation()
   const [open, setOpen] = useState(false)
   const [clock, setClock] = useState('')
   const isShop = location.pathname.startsWith('/shop')
+  const isPrint = location.pathname === '/print'
+  const isHome = location.pathname === '/'
 
   useEffect(() => {
     const tick = () => setClock(new Date().toLocaleTimeString('en-GB', { hour12: false }))
@@ -36,13 +47,15 @@ export default function Header() {
 
   function jump(e: React.MouseEvent, hash: string) {
     setOpen(false)
-    if (location.pathname !== '/' && !isShop) return
-    if (isShop && location.pathname !== '/shop') return
+    if (!isHome && !isPrint && location.pathname !== '/shop') return
     e.preventDefault()
     document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const nav = isShop ? SHOP_NAV : LANDING_NAV
+  // hash links only make sense on the page that owns the sections
+  const nav = isShop ? SHOP_NAV : isPrint ? PRINT_NAV : isHome ? LANDING_NAV : []
+  const accountHref = user ? homeFor(user.role) : '/login'
+  const accountLabel = user ? (user.role === 'premium' ? 'Portal' : 'Admin') : 'Sign in'
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-[var(--bg)]/85 backdrop-blur-md">
@@ -71,7 +84,9 @@ export default function Header() {
           </span>
           <span className="font-mono simple:font-sans font-bold tracking-tight text-[15px]">
             pyraxis
-            <span className="text-flame">{isShop ? <><span className="dev-only">:shop</span><span className="simple-only"> Shop</span></> : ''}</span>
+            <span className="text-flame">
+              {isShop ? <><span className="dev-only">:shop</span><span className="simple-only"> Shop</span></> : isPrint ? <><span className="dev-only">:print</span><span className="simple-only"> Print</span></> : ''}
+            </span>
           </span>
         </Link>
 
@@ -87,11 +102,17 @@ export default function Header() {
               <span className="simple-only">{n.simple}</span>
             </a>
           ))}
-          {isShop ? (
+          {!isHome && (
             <Link to="/" className="hover:text-[var(--fg)] transition-colors">
               <span className="dev-only">~/home</span><span className="simple-only">Home</span>
             </Link>
-          ) : (
+          )}
+          {!isPrint && !isHome && (
+            <Link to="/print" className="hover:text-[var(--fg)] transition-colors">
+              <span className="dev-only">~/print</span><span className="simple-only">3D Printing</span>
+            </Link>
+          )}
+          {!isShop && (
             <Link to="/shop" className="hover:text-[var(--fg)] transition-colors">
               <span className="dev-only">~/shop</span><span className="simple-only">Shop</span>
             </Link>
@@ -129,7 +150,27 @@ export default function Header() {
             {theme === 'dark' ? <Moon size={15} /> : <Sun size={15} />}
           </button>
 
-          {!isShop && (
+          <Link
+            to={accountHref}
+            aria-label={accountLabel}
+            className="h-9 px-2.5 flex items-center gap-1.5 border border-line hover:border-flame transition-colors simple:rounded-lg text-[11px] kicker"
+          >
+            <UserRound size={14} className={user ? 'text-flame' : ''} />
+            <span className="hidden sm:inline">{accountLabel}</span>
+          </Link>
+
+          {isPrint && (
+            <a
+              href="#quote"
+              onClick={(e) => jump(e, '#quote')}
+              className="hidden sm:grid place-items-center h-9 px-4 bg-flame text-black font-bold text-[12px] tracking-wide hover:bg-ember transition-colors simple:rounded-lg simple:font-sans"
+            >
+              <span className="dev-only">./quote</span>
+              <span className="simple-only">Get a quote</span>
+            </a>
+          )}
+
+          {isHome && (
             <a
               href="#download"
               onClick={(e) => jump(e, '#download')}
@@ -157,11 +198,10 @@ export default function Header() {
               <span className="dev-only">{n.dev}</span><span className="simple-only">{n.simple}</span>
             </a>
           ))}
-          {isShop ? (
-            <Link to="/" onClick={() => setOpen(false)} className="py-2"><span className="dev-only">~/home</span><span className="simple-only">Home</span></Link>
-          ) : (
-            <Link to="/shop" onClick={() => setOpen(false)} className="py-2"><span className="dev-only">~/shop</span><span className="simple-only">Shop</span></Link>
-          )}
+          {!isHome && <Link to="/" onClick={() => setOpen(false)} className="py-2"><span className="dev-only">~/home</span><span className="simple-only">Home</span></Link>}
+          {!isPrint && !isHome && <Link to="/print" onClick={() => setOpen(false)} className="py-2"><span className="dev-only">~/print</span><span className="simple-only">3D Printing</span></Link>}
+          {!isShop && <Link to="/shop" onClick={() => setOpen(false)} className="py-2"><span className="dev-only">~/shop</span><span className="simple-only">Shop</span></Link>}
+          <Link to={accountHref} onClick={() => setOpen(false)} className="py-2 text-flame">{accountLabel}</Link>
         </nav>
       )}
     </header>

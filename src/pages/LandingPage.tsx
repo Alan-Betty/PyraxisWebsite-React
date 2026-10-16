@@ -7,7 +7,8 @@ import PreviewSection from '../components/PreviewSection'
 import FeaturesSection from '../components/FeaturesSection'
 import DownloadHub from '../components/DownloadHub'
 import ShopTeaser from '../components/ShopTeaser'
-import PrintingSection from '../components/PrintingSection'
+import PrintSpotlight from '../components/printing/PrintSpotlight'
+import { PRINT_TICKER } from '../data/printing'
 
 export default function LandingPage() {
   return (
@@ -16,13 +17,14 @@ export default function LandingPage() {
       <Header />
       <main>
         <Hero />
+        <Ticker items={PRINT_TICKER} />
+        <PrintSpotlight />
         <Ticker />
         <FeaturesSection />
         <PreviewSection />
         <DownloadHub />
         <Ticker reverse />
         <ShopTeaser />
-        <PrintingSection />
       </main>
       <Footer />
     </div>

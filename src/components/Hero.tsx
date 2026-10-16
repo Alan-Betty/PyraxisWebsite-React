@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { Download, ArrowRight } from 'lucide-react'
 import { useTypewriter } from '../hooks/useTypewriter'
 
@@ -31,6 +32,14 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
         {/* left */}
         <div>
+          <Link
+            to="/print"
+            className="group inline-flex items-center gap-2 mb-6 h-7 pl-1 pr-3 border border-line hover:border-flame transition-colors text-[11px] font-mono simple:font-sans simple:rounded-full"
+          >
+            <span className="h-5 px-1.5 grid place-items-center bg-flame text-black font-bold text-[10px] simple:rounded-full">NEW</span>
+            <span className="text-[var(--fg-dim)] group-hover:text-[var(--fg)]">3D printing — instant quotes from ₹5/g</span>
+            <ArrowRight size={12} className="text-flame group-hover:translate-x-0.5 transition-transform" />
+          </Link>
           <div className="flex items-center gap-3 mb-8">
             <span className="kicker">
               <span className="dev-only">[ browser / v0.9.2-beta ]</span>

@@ -1,73 +1,59 @@
-# React + TypeScript + Vite
+# Pyraxis website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 + TypeScript + Vite + Tailwind v4, deployed on Vercel.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+npm install
+npm run dev     # http://localhost:5173
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Routes
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Path | Who | What |
+| --- | --- | --- |
+| `/` | everyone | Browser landing page with the 3D printing spotlight and instant quote |
+| `/print` | everyone | 3D printing: technology, materials, solutions, quote → WhatsApp |
+| `/shop` | everyone | PyKey shop |
+| `/login` | everyone | Sign-in for premium customers and staff |
+| `/portal` | premium | Instant booking, custom print calculator, order tracking, downloads, account |
+| `/admin` | admin, moderator | Printing & accounts · Assets & downloads · Site settings (admin only) |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Layout
+
 ```
+src/api/            data layer: one module per area, written like request handlers
+  store.ts          persistence (localStorage + IndexedDB for files) — the only file to swap for a real backend
+  auth.ts           sessions, password hashing, requireActor(permission) guard
+  permissions.ts    role → permission map
+  public.ts         guest endpoints (config, public downloads)
+  portal.ts         premium self-service endpoints
+  admin/*.ts        staff endpoints (orders, accounts, coupons, templates, assets, analytics, settings)
+src/lib/pricing.ts  pricing matrix + coupon rules (pure, shared by UI and API)
+src/lib/files.ts    model upload validation + STL/OBJ measurement
+src/features/premium/   premium portal (no admin imports)
+src/features/admin/     admin panel (no premium imports)
+```
+
+## Pricing
+
+Standard prints are tiered by the order's total weight (grams per piece × quantity):
+≤150 g → ₹10/g, ≤250 g → ₹7/g, above → ₹5/g. Keychains are a flat ₹7/g.
+Admins can switch between **slab** (whole order at its tier's rate, as published) and
+**progressive** (each band at its own rate) under Site settings.
+
+## Important: no server yet
+
+All records live in the visitor's own browser. That makes the portal and admin panel fully
+usable for demos and for running the shop from one machine, but:
+
+- accounts, orders and uploads made on one device are **not visible on any other device**;
+- role checks run in the browser, so they are **not a security boundary**.
+
+Before real customers use the portal, replace `src/api/store.ts` (and the password hashing in
+`auth.ts`) with calls to a backend that stores data and enforces the same permission checks
+server-side. The service modules' function signatures are the API contract to implement.
+
+Bootstrap admin login: `admin@pyraxis.local` / `pyraxis-admin` (must be changed at first sign-in
+outside `npm run dev`). Dev builds also seed a moderator and a demo premium customer, listed on
+the login page.
